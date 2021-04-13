@@ -1,7 +1,6 @@
 buildscript {
     repositories {
         mavenCentral()
-        maven { url 'file:///D:/work/maven/repository'}
         mavenLocal()
         jcenter()
     }
