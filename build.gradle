@@ -1,5 +1,8 @@
 buildscript {
     repositories {
+        mavenCentral()
+        maven { url 'file:///D:/work/maven/repository'}
+        mavenLocal()
         jcenter()
     }
 }
@@ -14,6 +17,7 @@ plugins {
 }
 
 repositories {
+    mavenCentral()
     jcenter()
 }
 
@@ -53,11 +57,11 @@ dependencies {
 
     compileOnly 'org.springframework.data:spring-data-redis:2.4.0'
     //jedis
-    compileOnly 'redis.clients:jedis:3.3.0'
+    compileOnly 'redis.clients:jedis:3.5.2'
     compileOnly 'com.redislabs:jredisearch:2.0.0'
     //lettuce
-    compileOnly 'com.redislabs:lettusearch:2.4.4'
-    compileOnly ('com.redislabs:spring-redisearch:2.4.4') {
+    compileOnly 'com.redislabs:lettusearch:3.1.2'
+    compileOnly ('com.redislabs:spring-redisearch:3.1.2') {
         exclude group: 'com.redislabs', module: 'lettusearch'
     }
 

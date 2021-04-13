@@ -1,7 +1,7 @@
 package com.rnbwarden.redisearch.client.lettuce;
 
-import com.redislabs.lettusearch.search.Document;
-import com.redislabs.lettusearch.search.SearchResults;
+import com.redislabs.lettusearch.Document;
+import com.redislabs.lettusearch.SearchResults;
 import com.rnbwarden.redisearch.client.PageableSearchResults;
 import com.rnbwarden.redisearch.client.PagedSearchResult;
 import com.rnbwarden.redisearch.entity.RedisSearchableEntity;
@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 
 public class LettucePagingSearchResults<E extends RedisSearchableEntity> implements PageableSearchResults<E> {
 
-    private final com.redislabs.lettusearch.search.SearchResults<String, Object> delegate;
+    private final com.redislabs.lettusearch.SearchResults<String, Object> delegate;
     private final LettuceRediSearchClient<E> lettuceRediSearchClient;
     private final Consumer<Exception> exceptionConsumer;
     private final String keyPrefix;
@@ -53,7 +53,7 @@ public class LettucePagingSearchResults<E extends RedisSearchableEntity> impleme
                 .map(this::createSearchResult);
     }
 
-    private PagedSearchResult<E> createSearchResult(com.redislabs.lettusearch.search.Document<String, Object> searchResult) {
+    private PagedSearchResult<E> createSearchResult(com.redislabs.lettusearch.Document<String, Object> searchResult) {
 
         return new LettucePagedSearchResult<>(keyPrefix, searchResult.getId(), lettuceRediSearchClient, exceptionConsumer);
     }

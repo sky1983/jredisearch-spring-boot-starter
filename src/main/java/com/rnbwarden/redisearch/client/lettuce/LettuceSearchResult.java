@@ -6,10 +6,10 @@ import java.util.Map;
 
 public class LettuceSearchResult<K extends String, V> implements SearchResult<K, V> {
 
-    private final com.redislabs.lettusearch.search.Document<K, V> delegate;
+    private final com.redislabs.lettusearch.Document<K, V> delegate;
     private final String keyPrefix;
 
-    LettuceSearchResult(String keyPrefix, com.redislabs.lettusearch.search.Document<K, V> document) {
+    LettuceSearchResult(String keyPrefix, com.redislabs.lettusearch.Document<K, V> document) {
 
         this.keyPrefix = keyPrefix;
         this.delegate = document;

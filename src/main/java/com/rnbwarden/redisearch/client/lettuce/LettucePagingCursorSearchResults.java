@@ -1,6 +1,6 @@
 package com.rnbwarden.redisearch.client.lettuce;
 
-import com.redislabs.lettusearch.aggregate.AggregateWithCursorResults;
+import com.redislabs.lettusearch.AggregateWithCursorResults;
 import com.rnbwarden.redisearch.client.PageableSearchResults;
 import com.rnbwarden.redisearch.client.PagedSearchResult;
 import com.rnbwarden.redisearch.entity.RedisSearchableEntity;
@@ -22,15 +22,15 @@ public class LettucePagingCursorSearchResults<E extends RedisSearchableEntity> i
 
     private final Logger logger = LoggerFactory.getLogger(LettucePagingCursorSearchResults.class.getName());
 
-    private AggregateWithCursorResults<String, Object> delegate;
-    private final Supplier<AggregateWithCursorResults<String, Object>> nextPageSupplier;
+    private AggregateWithCursorResults<String> delegate;
+    private final Supplier<AggregateWithCursorResults<String>> nextPageSupplier;
     private final Function<Map<String, Object>, E> deserializeFunction;
     private final Closeable closeable;
     private final ResultsIterator iterator;
     private final Consumer<Exception> exceptionConsumer;
 
-    LettucePagingCursorSearchResults(AggregateWithCursorResults<String, Object> delegate,
-                                     Supplier<AggregateWithCursorResults<String, Object>> nextPageSupplier,
+    LettucePagingCursorSearchResults(AggregateWithCursorResults<String> delegate,
+                                     Supplier<AggregateWithCursorResults<String>> nextPageSupplier,
                                      Function<Map<String, Object>, E> deserializeFunction,
                                      Closeable closeable,
                                      Consumer<Exception> exceptionConsumer) {
@@ -100,12 +100,12 @@ public class LettucePagingCursorSearchResults<E extends RedisSearchableEntity> i
         private final ConcurrentLinkedQueue<Map<String, Object>> results = new ConcurrentLinkedQueue<>();
         private volatile boolean hasNext = true;
 
-        ResultsIterator(AggregateWithCursorResults<String, Object> delegate) {
+        ResultsIterator(AggregateWithCursorResults<String> delegate) {
 
             populateResultsFromAggregateResults(delegate);
         }
 
-        private void populateResultsFromAggregateResults(AggregateWithCursorResults<String, Object> delegate) {
+        private void populateResultsFromAggregateResults(AggregateWithCursorResults<String> delegate) {
 
             LettucePagingCursorSearchResults.this.delegate = delegate;
             ofNullable(delegate).ifPresent(this.results::addAll);

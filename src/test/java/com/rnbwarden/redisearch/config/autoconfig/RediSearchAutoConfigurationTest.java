@@ -18,7 +18,9 @@ public class RediSearchAutoConfigurationTest {
         new ApplicationContextRunner()
                 .withConfiguration(AutoConfigurations.of(RediSearchAutoConfiguration.class, MockLettuceConfiguration.class))
                 .withClassLoader(new FilteredClassLoader(Jedis.class))
-                .withPropertyValues("redis.search.base-package=com.rnbwarden.redisearch")
+                .withPropertyValues("redis.search.base-package=com.rnbwarden.redisearch.entity")
+                .withPropertyValues("spring.redis.host=192.168.167.230")
+                .withPropertyValues("spring.redis.port=63279")
                 .run((context) -> {
                     assertThat(context).doesNotHaveBean(JedisRediSearchClient.class);
                     assertThat(context).hasBean("productEntityRediSearchClient");

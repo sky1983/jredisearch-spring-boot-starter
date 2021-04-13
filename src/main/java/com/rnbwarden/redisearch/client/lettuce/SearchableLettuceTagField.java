@@ -1,9 +1,9 @@
 package com.rnbwarden.redisearch.client.lettuce;
 
-import com.redislabs.lettusearch.index.field.TagField;
-import com.rnbwarden.redisearch.client.SearchableTagField;
-
 import java.util.function.Function;
+
+import com.redislabs.lettusearch.Field.Tag;
+import com.rnbwarden.redisearch.client.SearchableTagField;
 
 public class SearchableLettuceTagField<E> extends SearchableLettuceField<E> implements SearchableTagField {
 
@@ -11,6 +11,6 @@ public class SearchableLettuceTagField<E> extends SearchableLettuceField<E> impl
                                      boolean sortable,
                                      Function<E, String> serializeFunction) {
 
-        super(name, serializeFunction, QUERY_SYNTAX, TagField.builder().name(name).sortable(sortable).build());
+        super(name, serializeFunction, QUERY_SYNTAX, Tag.builder(name).sortable(sortable).build());
     }
 }

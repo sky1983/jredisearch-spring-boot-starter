@@ -64,7 +64,7 @@ public class LettuceTest {
 
         RedisSerializer<ProductEntity> redisSerializer = new CompressingJacksonSerializer<>(clazz, objectMapper);
         RedisCodec<String, Object> redisCodec = new RediSearchLettuceClientFactoryBean.LettuceRedisCodec();
-        RediSearchClient rediSearchClient = RediSearchClient.create(RedisURI.create("localhost", 6379));
+        RediSearchClient rediSearchClient = RediSearchClient.create(RedisURI.create("192.168.167.230", 63279));
         GenericObjectPool<StatefulRediSearchConnection<String, Object>> pool = ConnectionPoolSupport.createGenericObjectPool(() -> rediSearchClient.connect(redisCodec), new GenericObjectPoolConfig<>());
         lettuceRediSearchClient = new LettuceRediSearchClient<>(clazz, redisSerializer, rediSearchClient, pool);
     }
@@ -109,12 +109,15 @@ public class LettuceTest {
         searchContext = new SearchContext<>();
         searchContext.addField(lettuceRediSearchClient.getField(SKUS), SearchOperator.UNION, "f01", "b02");
         assertEquals(2, lettuceRediSearchClient.find(searchContext).getResults().size());
+
+        lettuceRediSearchClient.delete(product2.getPersistenceKey());
+        assertEquals(1, (long) lettuceRediSearchClient.getKeyCount());
     }
 
     @Test
     public void testPaging() {
 
-        int max = 1028547;
+        int max = 100;
         String namePrefix = "FALCON-";
         Brand brand = Brand.ADIDAS;
 
@@ -148,7 +151,7 @@ public class LettuceTest {
     @Test
     public void testClientSidePaging() {
 
-        int max = 10000;
+        int max = 100;
         String namePrefix = "FALCON-";
         Brand brand = Brand.ADIDAS;
 
@@ -191,7 +194,7 @@ public class LettuceTest {
     @Test
     public void testFindAll() throws Exception {
 
-        int max = 3726;
+        int max = 1000;
         String namePrefix = "FALCON-";
         Brand brand = Brand.NIKE;
 
@@ -212,7 +215,7 @@ public class LettuceTest {
     public void testSorting() {
 
         assertEquals(0, (long) lettuceRediSearchClient.getKeyCount());
-        int max = 1000;
+        int max = 100;
 
         lettuceRediSearchClient.save(new ProductEntity("id-ZZZ01", "ZZZ01", Brand.NIKE, Collections.emptyList(), Collections.emptyList()));
         saveProductsInRange(max - 2, "TEST-", Brand.NIKE);

@@ -1,21 +1,22 @@
 package com.rnbwarden.redisearch.config.factorybean;
 
+import java.nio.ByteBuffer;
+
 import com.redislabs.lettusearch.RediSearchClient;
 import com.redislabs.lettusearch.StatefulRediSearchConnection;
 import com.rnbwarden.redisearch.client.lettuce.LettuceRediSearchClient;
 import com.rnbwarden.redisearch.entity.RedisSearchableEntity;
-import io.lettuce.core.codec.ByteArrayCodec;
-import io.lettuce.core.codec.RedisCodec;
-import io.lettuce.core.codec.StringCodec;
-import io.lettuce.core.codec.Utf8StringCodec;
-import io.lettuce.core.support.ConnectionPoolSupport;
+
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.stereotype.Component;
 
-import java.nio.ByteBuffer;
+import io.lettuce.core.codec.ByteArrayCodec;
+import io.lettuce.core.codec.RedisCodec;
+import io.lettuce.core.codec.StringCodec;
+import io.lettuce.core.support.ConnectionPoolSupport;
 
 @Component
 public class RediSearchLettuceClientFactoryBean<E extends RedisSearchableEntity> extends AbstractRediSearchClientFactoryBean<E> {
@@ -48,7 +49,7 @@ public class RediSearchLettuceClientFactoryBean<E extends RedisSearchableEntity>
     public static class LettuceRedisCodec implements RedisCodec<String, Object> {
 
         private final ByteArrayCodec byteArrayCodec = new ByteArrayCodec();
-        private final StringCodec stringCodec = new Utf8StringCodec();
+        private final StringCodec stringCodec = StringCodec.UTF8;
 
         @Override
         public ByteBuffer encodeKey(String key) {

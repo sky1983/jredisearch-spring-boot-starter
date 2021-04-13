@@ -11,10 +11,10 @@ import static java.util.stream.Collectors.toList;
 
 public class LettuceSearchResults<E extends RedisSearchableEntity> implements SearchResults<E> {
 
-    private final com.redislabs.lettusearch.search.SearchResults<String, Object> delegate;
+    private final com.redislabs.lettusearch.SearchResults<String, Object> delegate;
     private final String keyPrefix;
 
-    LettuceSearchResults(String keyPrefix, com.redislabs.lettusearch.search.SearchResults<String, Object> delegate) {
+    LettuceSearchResults(String keyPrefix, com.redislabs.lettusearch.SearchResults<String, Object> delegate) {
 
         this.keyPrefix = keyPrefix;
         this.delegate = delegate;
@@ -35,7 +35,7 @@ public class LettuceSearchResults<E extends RedisSearchableEntity> implements Se
                 .collect(toList());
     }
 
-    private LettuceSearchResult<String, Object> createSearchResult(com.redislabs.lettusearch.search.Document<String, Object> document) {
+    private LettuceSearchResult<String, Object> createSearchResult(com.redislabs.lettusearch.Document<String, Object> document) {
 
         return new LettuceSearchResult<>(keyPrefix, document);
     }

@@ -51,7 +51,7 @@ public class JedisTest {
 
         Class<ProductEntity> clazz = ProductEntity.class;
         RedisSerializer<ProductEntity> redisSerializer = new CompressingJacksonSerializer<>(clazz, new ObjectMapper());
-        rediSearchClient = new Client("product", "localhost", 6379);
+        rediSearchClient = new Client("product", "192.168.167.230", 63279);
         jedisRediSearchClient = new JedisRediSearchClient<>(clazz, rediSearchClient, redisSerializer);
     }
 
@@ -109,6 +109,7 @@ public class JedisTest {
         assertEquals(max + 1, jedisRediSearchClient.getKeyCount(), 0);
 
         PagingSearchContext<ProductEntity> pagingSearchContext = jedisRediSearchClient.getPagingSearchContextWithFields(Map.of(BRAND, Brand.ADIDAS.toString()));
+        pagingSearchContext.setLimit(max);
         PageableSearchResults<ProductEntity> searchResults = jedisRediSearchClient.search(pagingSearchContext);
 
         List<ProductEntity> products = searchResults.resultStream()
@@ -143,6 +144,7 @@ public class JedisTest {
 
         PagingSearchContext<ProductEntity> pagingSearchContext = jedisRediSearchClient.getPagingSearchContextWithFields(Map.of(BRAND, Brand.ADIDAS.toString()));
         pagingSearchContext.setUseClientSidePaging(true);
+        pagingSearchContext.setLimit(max);
         PageableSearchResults<ProductEntity> searchResults = jedisRediSearchClient.search(pagingSearchContext);
 
         List<ProductEntity> products = searchResults.resultStream()
@@ -252,6 +254,7 @@ public class JedisTest {
 
         PagingSearchContext<ProductEntity> pagingSearchContext = jedisRediSearchClient.getPagingSearchContextWithFields(Map.of(ProductEntity.BRAND, Brand.NIKE.toString()));
         pagingSearchContext.setPageSize(100000L);
+        pagingSearchContext.setLimit(keySize);
         Long keyCount = jedisRediSearchClient.getKeyCount(pagingSearchContext);
         assertEquals(keySize, keyCount, 0);
     }

@@ -220,7 +220,7 @@ public class JedisRediSearchClient<E extends RedisSearchableEntity> extends Abst
     protected PageableSearchResults<E> aggregateSearch(String queryString, PagingSearchContext<E> searchContext) {
 
         AggregationBuilder aggregationBuilder = new AggregationBuilder(queryString)
-                .limit(ofNullable(searchContext.getLimit()).orElse(Integer.MAX_VALUE))
+                .limit(ofNullable(searchContext.getLimit()).orElse(PagingSearchContext.DEFAULT_MAX_LIMIT_VALUE))
                 .cursor((int)searchContext.getPageSize(), Integer.MAX_VALUE);
 
         ofNullable(searchContext.getSortBy()).ifPresent(sortBy -> {

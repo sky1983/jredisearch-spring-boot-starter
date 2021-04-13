@@ -1,6 +1,6 @@
 package com.rnbwarden.redisearch.client.lettuce;
 
-import com.redislabs.lettusearch.index.field.TextField;
+import com.redislabs.lettusearch.Field.Text;
 import com.rnbwarden.redisearch.client.SearchableTextField;
 
 import java.util.function.Function;
@@ -11,6 +11,6 @@ public class SearchableLettuceTextField<E> extends SearchableLettuceField<E> imp
                                       boolean sortable,
                                       Function<E, String> serializeFunction) {
 
-        super(name, serializeFunction, QUERY_SYNTAX, TextField.builder().name(name).sortable(sortable).build());
+        super(name, serializeFunction, QUERY_SYNTAX, Text.builder(name).sortable(sortable).build());
     }
 }
