@@ -78,6 +78,7 @@ public class LettuceRediSearchClient<E extends RedisSearchableEntity>
     /**
      * Alter the existing schema to add any missing fields
      */
+    @SuppressWarnings(value = "unchecked")
     private void alterSchema() {
 
         logger.info("checking for new fields & options for existing ReidSearch schema for index: {}", index);
@@ -217,11 +218,11 @@ public class LettuceRediSearchClient<E extends RedisSearchableEntity>
         }
     }
 
+    @SuppressWarnings(value = "unchecked")
     private Field<String>[] fields() {
-        Set<Field<String>> fieldSet = getFields().stream().filter(SearchableLettuceField::isSearchable)
-                .map(SearchableLettuceField::getField).collect(Collectors.toSet());
-        Field<String>[] fields = fieldSet.toArray(Field[]::new);
-        return fields;
+        Field<String>[] fields = getFields().stream().filter(SearchableLettuceField::isSearchable)
+        .map(SearchableLettuceField::getField).toArray(Field[]::new);
+        return (Field<String>[]) fields;
     }
 
     @Override
