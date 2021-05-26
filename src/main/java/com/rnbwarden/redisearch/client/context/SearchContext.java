@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SearchContext<E> {
 
-    public static final Integer DEFAULT_MAX_LIMIT_VALUE = 1000;
+    public static final Integer DEFAULT_MAX_LIMIT_VALUE = 1000000;
 
     private boolean noContent;
     private boolean verbatim;
